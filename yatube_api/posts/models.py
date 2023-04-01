@@ -43,7 +43,7 @@ class Post(models.Model):
     )
 
     class Meta():
-        ordering = ['id',]
+        ordering = ['id', ]
         verbose_name_plural = 'Посты'
 
     def __str__(self) -> str:
@@ -93,4 +93,4 @@ class Follow(models.Model):
             models.UniqueConstraint(
                 fields=("user", "following"),
                 name="unique_pair"
-            ),]
+            ), ]
