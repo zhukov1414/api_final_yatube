@@ -41,13 +41,16 @@ class FollowSerializer(serializers.ModelSerializer):
         queryset=User.objects.all()
     )
 
-    validators = [
-        serializers.UniqueTogetherValidator(
-            queryset=Follow.objects.all(),
-            fields=['user', 'following'],
-            message='Подписка на себя дважы невозможна.'
-        )
-    ]
+    class Meta:
+        model = Follow
+        fields = ('user', 'following')
+        validators = [
+            serializers.UniqueTogetherValidator(
+                queryset=Follow.objects.all(),
+                fields=['user', 'following'],
+                message='Подписка на себя дважы невозможна.'
+            )
+        ]
 
     def validate_following(self, value):
         if value == self.context['request'].user:
@@ -55,7 +58,3 @@ class FollowSerializer(serializers.ModelSerializer):
                 'Подписка на себя невозможна.'
             )
         return value
-
-    class Meta:
-        model = Follow
-        fields = ('user', 'following')
